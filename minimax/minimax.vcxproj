@@ -140,6 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="minimax.cpp" />
+    <ClCompile Include="MinimaxFunction.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MinimaxFunction.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

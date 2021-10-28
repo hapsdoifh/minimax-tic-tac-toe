@@ -1,0 +1,7 @@
+﻿  MinimaxFunction.cpp
+  minimax.cpp
+  Generating Code...
+D:\Github_Repos\minimax-tic-tac-toe\minimax\MinimaxFunction.cpp(12): warning C4172: returning address of local variable or temporary: rval
+D:\Github_Repos\minimax-tic-tac-toe\minimax\MinimaxFunction.cpp(41): warning C4172: returning address of local variable or temporary: rval
+D:\Github_Repos\minimax-tic-tac-toe\minimax\MinimaxFunction.cpp(64): warning C4172: returning address of local variable or temporary: rval
+  minimax.vcxproj -> D:\Github_Repos\minimax-tic-tac-toe\x64\Debug\minimax.exe

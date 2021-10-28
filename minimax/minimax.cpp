@@ -1,76 +1,15 @@
 // minimax.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-#define Xs 'x'
-#define Os 'o'
 
 #include <iostream>
+#include "MinimaxFunction.h"
 
-int analyzePos(char position[3][3], char side);
-
-int minimax(int depth, bool maximizing, char position[3][3]) {
-    if (depth == 0 || analyzePos(position, Os)) {
-        return  analyzePos(position, Os);
-    }
-    int y = 0;
-    int x = 0;
-    for (y = 0; y < 3; y++) {
-        for (x = 0; x < 3; x++){
-        }
-    }
-    return 0;
-}
-
-int analyzePos(char position[3][3], char side) { // 1 is win, 0 is no win
-    int x = 0;
-    int y = 0;
-    int won = 0;
-    char opponent = 0;
-    char sideCopy = side;
-    if (side == Xs) {
-        opponent = Os;
-    }
-    else {
-        opponent = Xs;
-    }
-    do {
-        x = 0;
-        y = 0;
-        for (y = 0; y < 3; y++) {
-            if (position[y][x] == sideCopy && position[y][x + 1] == sideCopy && position[y][x + 2] == sideCopy) {
-                won = 1;
-            }
-        }
-        for (x = 0; x < 3; x++) {
-            if (position[y][x] == sideCopy && position[y+1][x] == sideCopy && position[y+2][x] == sideCopy) {
-                won = 1;
-            }
-        }
-        if (position[0][0] == sideCopy && position[1][1] == sideCopy && position[2][2] == sideCopy) {
-            won = 1;
-        }
-        if (position[0][2] == sideCopy && position[1][1] == sideCopy && position[2][0] == sideCopy) {
-            won = 1;
-        }
-        if (won) {
-            if (sideCopy == side) { //computer side won
-                return 1;
-            }
-            else {
-                return -1;
-            }
-        }
-        if (sideCopy == side) // this lets sideCopy switch between opponent and side
-            sideCopy = opponent;
-        else
-            sideCopy = side;
-    } while (sideCopy != side);
-    return 0;
-}
 
 int main()
-{
-    char PlayerPos[3][3] = { Xs,Xs,Xs,Os,Os,0,0,0,0 };
-    std::cout << analyzePos(PlayerPos, Os);
+{   
+    char PlayerPos[3][3] = { Xs,Os,0,0,Xs,0,0,0,Os };
+    int* i = 0;
+    i = minimax(3, true, PlayerPos, Xs, Os);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

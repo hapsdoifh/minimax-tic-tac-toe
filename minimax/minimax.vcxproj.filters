@@ -18,5 +18,13 @@
     <ClCompile Include="minimax.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MinimaxFunction.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MinimaxFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
