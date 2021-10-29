@@ -7,7 +7,7 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
     int min = 0;
     int rval[3] = { 0,0,0 };
     char posCpy[3][3];
-    if (depth == 0 || analyzePos(position, myside)) { //if the it has reached required depth or a side won
+    if (depth == 0 || analyzePos(position, myside) || analyzePos(position,opponent)) { //if the it has reached required depth or a side won
         rval[2] = analyzePos(position, myside);
         return rval;
     }
@@ -45,14 +45,16 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
             for (x = 0; x < 3; x++) {
                 if (position[y][x] == 0) {
                     position[y][x] = opponent;
+                    memcpy(posCpy, position, sizeof(posCpy));
                     temp = *(minimax(depth - 1, !maximizing, position, myside, opponent)+2);
+                    position[y][x] = 0;
                     if (first == 0) {
                         min = temp;
                         min = 1;
                         rval[0] = x;
                         rval[1] = y;
                     }
-                    else if (max > temp) {
+                    else if (min > temp) {
                         min = temp;
                         rval[0] = x;
                         rval[1] = y;

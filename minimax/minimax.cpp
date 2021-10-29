@@ -7,7 +7,7 @@
 
 int main()
 {   
-    char PlayerPos[3][3] = { Xs,Os,0,0,Xs,0,0,0,Os };
+    char PlayerPos[3][3] = { Xs,0,0,Xs,Os,0,Os,0,0 };
     int* i = 0;
     i = minimax(3, true, PlayerPos, Xs, Os);
 }
