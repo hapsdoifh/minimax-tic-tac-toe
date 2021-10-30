@@ -7,9 +7,27 @@
 
 int main()
 {   
-    char PlayerPos[3][3] = { Xs,0,0,Xs,Os,0,Os,0,0 };
+    char PlayerPos[3][3] = { 0,0,0,0,0,0,0,0,0 };
     int* i = 0;
-    i = minimax(3, true, PlayerPos, Xs, Os);
+    int xpos, ypos;
+    while (true) {
+        i = minimax(8, true, PlayerPos, Xs, Os);
+        PlayerPos[i[1]][i[0]] = Xs;
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                if (PlayerPos[j][k] == 0) {
+                    std::cout << "_";
+                }
+                std::cout << PlayerPos[j][k];
+                std::cout << " ";
+            }
+            std::cout << "\n";
+        }
+        std::cout << "Enter your move";
+        std::cin >> xpos;
+        std::cin >> ypos;
+        PlayerPos[ypos][xpos] = Os;
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

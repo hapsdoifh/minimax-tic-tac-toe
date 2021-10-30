@@ -7,8 +7,12 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
     int min = 0;
     int rval[3] = { 0,0,0 };
     char posCpy[3][3];
+    if (depth == 2) {
+        min = 1;
+        min = 0;
+    }
     if (depth == 0 || analyzePos(position, myside) || analyzePos(position,opponent)) { //if the it has reached required depth or a side won
-        rval[2] = analyzePos(position, myside);
+        rval[2] = (depth+1) * analyzePos(position, myside);
         return rval;
     }
     int y = 0;
@@ -50,7 +54,7 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
                     position[y][x] = 0;
                     if (first == 0) {
                         min = temp;
-                        min = 1;
+                        first = 1;
                         rval[0] = x;
                         rval[1] = y;
                     }
@@ -87,11 +91,13 @@ int analyzePos(char position[3][3], char side) { // 1 is win, 0 is no win
                 won = 1;
             }
         }
+        y = 0;
         for (x = 0; x < 3; x++) {
             if (position[y][x] == sideCopy && position[y + 1][x] == sideCopy && position[y + 2][x] == sideCopy) {
                 won = 1;
             }
         }
+        x = 0;
         if (position[0][0] == sideCopy && position[1][1] == sideCopy && position[2][2] == sideCopy) {
             won = 1;
         }
