@@ -50,7 +50,7 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
                 if (position[y][x] == 0) {
                     position[y][x] = opponent;
                     memcpy(posCpy, position, sizeof(posCpy));
-                    temp = *(minimax(depth - 1, !maximizing, position, myside, opponent)+2);
+                    temp = *(minimax(depth - 1, !maximizing, posCpy, myside, opponent)+2);
                     position[y][x] = 0;
                     if (first == 0) {
                         min = temp;
