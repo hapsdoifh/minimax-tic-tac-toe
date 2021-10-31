@@ -10,40 +10,43 @@ int main()
     char GamePos[3][3] = { 0,0,0,0,0,0,0,0,0 };
     int* i = 0;
     int xpos, ypos;
+    char userSide, ComputerSide,goFirstSide = Xs;
+    std::cout << "Pick your side (x / o):";
+    std::cin >> userSide;
+    if (userSide == Xs) {
+        ComputerSide = Os;
+    }
+    else {
+        ComputerSide = Xs;
+    }
     while (true) {
-        i = minimax(8, true, GamePos, Xs, Os);
-        GamePos[i[1]][i[0]] = Xs;
-        std::cout << "  1|2|3\n";
-        for (int j = 0; j < 3; j++) {
-            std::cout << j+1 << "|";
-            for (int k = 0; k < 3; k++) {
-                if (GamePos[j][k] == 0) {    
-                    std::cout << "_";
-                }
-                std::cout << GamePos[j][k];
-                std::cout << " ";
-            }
-            std::cout << "\n";
+        if (ComputerSide == goFirstSide) {
+            i = minimax(8, true, GamePos, ComputerSide, userSide); //checks the best next move
+            GamePos[i[1]][i[0]] = ComputerSide;
+            printBoard(GamePos);
+            if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
+                break;
+            xpos = inputMove('X');
+            ypos = inputMove('Y');
+            GamePos[ypos][xpos] = userSide;
+            printBoard(GamePos);
+            if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
+                break;
         }
-        if (analyzePos(GamePos, Xs) != 0 || isBoardFull(GamePos)) {
-            if (analyzePos(GamePos, Xs)) { // the computer won
-                std::cout << "Computer Won!";
-            }
-            else if (isBoardFull(GamePos)) {
-                std::cout << "It's a tie!";
-            }
-            else {
-                std::cout << "Oh wow you won, there's something wrong with the program!";
-            }
-            break;
+        else {
+            xpos = inputMove('X');
+            ypos = inputMove('Y');
+            GamePos[ypos][xpos] = userSide;
+            printBoard(GamePos);
+            if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
+                break;
+            i = minimax(8, true, GamePos, ComputerSide, userSide); //checks the best next move
+            GamePos[i[1]][i[0]] = ComputerSide;
+            printBoard(GamePos);
+            if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
+                break;
         }
-        std::cout << "Enter your move (X): ";
-        std::cin >> xpos;
-        std::cout << "Enter your move (Y): ";
-        std::cin >> ypos;
-        xpos--;
-        ypos--;
-        GamePos[ypos][xpos] = Os;
+
     }
     return 0;
 }

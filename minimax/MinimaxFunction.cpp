@@ -11,8 +11,8 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
         min = 1;
         min = 0;
     }
-    if (depth == 0 || analyzePos(position, myside) || analyzePos(position,opponent)) { //if the it has reached required depth or a side won
-        rval[2] = (depth+1) * analyzePos(position, myside);
+    if (depth == 0 || analyzeBoard(position, myside) || analyzeBoard(position,opponent)) { //if the it has reached required depth or a side won
+        rval[2] = (depth+1) * analyzeBoard(position, myside);
         return rval;
     }
     int y = 0;
@@ -71,7 +71,7 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
     }
 }
 
-int analyzePos(char position[3][3], char side) { // 1 is win, 0 is no win
+int analyzeBoard(char position[3][3], char side) { // 1 is win, 0 is no win
     int x = 0;
     int y = 0;
     int won = 0;
@@ -130,4 +130,46 @@ int isBoardFull(char position[3][3]) {
         }
     }
     return 1;
+}
+
+int anaylzeSituation(char GamePos[3][3], char ComputerSide) {
+    if (analyzeBoard(GamePos, ComputerSide) != 0 || isBoardFull(GamePos)) {
+        if (analyzeBoard(GamePos, ComputerSide)) { // the computer won
+            std::cout << "Computer Won!";
+        }
+        else if (isBoardFull(GamePos)) {
+            std::cout << "It's a tie!";
+        }
+        else {
+            std::cout << "Oh wow you won, there's something wrong with the program!";
+        }
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+void printBoard(char GamePos[3][3]) {
+    std::cout << "  1|2|3\n"; //output x-coordinates
+    for (int j = 0; j < 3; j++) {
+        std::cout << j + 1 << "|"; // output y-coordinates
+        for (int k = 0; k < 3; k++) {
+            if (GamePos[j][k] == 0) {
+                std::cout << "_";
+            }
+            std::cout << GamePos[j][k];
+            std::cout << " ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
+}
+
+int inputMove(char axis) { //returns a size 2 array whre [0] is x, and [1] is y
+    int pos;
+    std::cout << "Enter your move ("<< axis << " position): ";
+    std::cin >> pos;
+    pos--;
+    return pos;
 }
