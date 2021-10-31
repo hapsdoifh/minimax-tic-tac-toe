@@ -12,3 +12,4 @@ typedef struct minimaxinfo {
 
 int analyzePos(char position[3][3], char side);
 int* minimax(int depth, bool maximizing, char position[3][3], char myside, char opponent);
+int isBoardFull(char position[3][3]);

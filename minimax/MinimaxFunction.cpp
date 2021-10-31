@@ -120,3 +120,14 @@ int analyzePos(char position[3][3], char side) { // 1 is win, 0 is no win
     return 0;
 }
 
+int isBoardFull(char position[3][3]) {
+    int full = 1;
+    for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 3; x++) {
+            if (position[y][x] == 0) {
+                return 0; // board is not full
+            }
+        }
+    }
+    return 1;
+}

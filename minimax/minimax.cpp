@@ -7,31 +7,45 @@
 
 int main()
 {   
-    char PlayerPos[3][3] = { 0,0,0,0,0,0,0,0,0 };
+    char GamePos[3][3] = { 0,0,0,0,0,0,0,0,0 };
     int* i = 0;
     int xpos, ypos;
     while (true) {
-        i = minimax(8, true, PlayerPos, Xs, Os);
-        PlayerPos[i[1]][i[0]] = Xs;
+        i = minimax(8, true, GamePos, Xs, Os);
+        GamePos[i[1]][i[0]] = Xs;
+        std::cout << "  1|2|3\n";
         for (int j = 0; j < 3; j++) {
+            std::cout << j+1 << "|";
             for (int k = 0; k < 3; k++) {
-                if (PlayerPos[j][k] == 0) {    
+                if (GamePos[j][k] == 0) {    
                     std::cout << "_";
                 }
-                std::cout << PlayerPos[j][k];
+                std::cout << GamePos[j][k];
                 std::cout << " ";
             }
             std::cout << "\n";
         }
-        if (analyzePos(PlayerPos, Xs) != 0) {
-            std::cout << "Game over!";
+        if (analyzePos(GamePos, Xs) != 0 || isBoardFull(GamePos)) {
+            if (analyzePos(GamePos, Xs)) { // the computer won
+                std::cout << "Computer Won!";
+            }
+            else if (isBoardFull(GamePos)) {
+                std::cout << "It's a tie!";
+            }
+            else {
+                std::cout << "Oh wow you won, there's something wrong with the program!";
+            }
             break;
         }
-        std::cout << "Enter your move";
+        std::cout << "Enter your move (X): ";
         std::cin >> xpos;
+        std::cout << "Enter your move (Y): ";
         std::cin >> ypos;
-        PlayerPos[ypos][xpos] = Os;
+        xpos--;
+        ypos--;
+        GamePos[ypos][xpos] = Os;
     }
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
