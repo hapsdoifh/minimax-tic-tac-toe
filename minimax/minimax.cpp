@@ -15,13 +15,17 @@ int main()
         PlayerPos[i[1]][i[0]] = Xs;
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
-                if (PlayerPos[j][k] == 0) {
+                if (PlayerPos[j][k] == 0) {    
                     std::cout << "_";
                 }
                 std::cout << PlayerPos[j][k];
                 std::cout << " ";
             }
             std::cout << "\n";
+        }
+        if (analyzePos(PlayerPos, Xs) != 0) {
+            std::cout << "Game over!";
+            break;
         }
         std::cout << "Enter your move";
         std::cin >> xpos;
