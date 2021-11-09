@@ -2,7 +2,7 @@
 
 
 
-int* minimax(int depth, bool maximizing, char position[BOARDSIZE][BOARDSIZE], char myside, char opponent) {
+int* minimax(int depth, int iniDepth, bool maximizing, char position[BOARDSIZE][BOARDSIZE], char myside, char opponent) {
     int max = 0;
     int min = 0;
     int rval[3] = { 0,0,0 };
@@ -18,13 +18,20 @@ int* minimax(int depth, bool maximizing, char position[BOARDSIZE][BOARDSIZE], ch
     int x = 0;
     int first = 0;
     int temp = 0;
+    int percent = 0;
     if (maximizing == true) {
         for (y = 0; y < BOARDSIZE; y++) {
             for (x = 0; x < BOARDSIZE; x++) {
+                if (depth == iniDepth) {
+                    for (int k = 0; k < 20; k++) {
+                        std::cout << "\b";
+                    }
+                    std::cout << "percent:"<< ((float)percent/BOARDSIZE/BOARDSIZE)*100 ;
+                }
                 if (position[y][x] == 0) {
                     position[y][x] = myside;
                     memcpy(posCpy, position, sizeof(posCpy));
-                    temp = *(minimax(depth - 1, !maximizing, posCpy, myside, opponent)+2);
+                    temp = *(minimax(depth - 1, iniDepth, !maximizing, posCpy, myside, opponent)+2);
                     position[y][x] = 0;
                     if (first == 0) {
                         max = temp;
@@ -38,6 +45,7 @@ int* minimax(int depth, bool maximizing, char position[BOARDSIZE][BOARDSIZE], ch
                         rval[1] = y;
                     }
                 }
+                percent++;
             }
         }
         rval[2] = max;
@@ -49,7 +57,7 @@ int* minimax(int depth, bool maximizing, char position[BOARDSIZE][BOARDSIZE], ch
                 if (position[y][x] == 0) {
                     position[y][x] = opponent;
                     memcpy(posCpy, position, sizeof(posCpy));
-                    temp = *(minimax(depth - 1, !maximizing, posCpy, myside, opponent)+2);
+                    temp = *(minimax(depth - 1, iniDepth, !maximizing, posCpy, myside, opponent)+2);
                     position[y][x] = 0;
                     if (first == 0) {
                         min = temp;
@@ -188,7 +196,11 @@ int anaylzeSituation(char GamePos[BOARDSIZE][BOARDSIZE], char ComputerSide) {
 }
 
 void printBoard(char GamePos[BOARDSIZE][BOARDSIZE]) {
-    std::cout << "  1|2|3\n"; //output x-coordinates
+    std::cout << "\n ";
+    for (int j = 0; j < BOARDSIZE; j++) {
+        std::cout << "|" << j + 1;
+    }
+    std::cout << "\n";
     for (int j = 0; j < BOARDSIZE; j++) {
         std::cout << j + 1 << "|"; // output y-coordinates
         for (int k = 0; k < BOARDSIZE; k++) {

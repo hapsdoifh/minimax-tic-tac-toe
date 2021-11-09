@@ -7,11 +7,14 @@
 
 int main()
 {   
-    char GamePos[BOARDSIZE][BOARDSIZE] = { Xs,Os,0,Xs,Os,0,Xs,Os,Xs,0,0,0,Xs,Os,Xs,Os };
+    char GamePos[BOARDSIZE][BOARDSIZE];
     memset(GamePos, 0, sizeof(GamePos));
     int* i = 0;
     int xpos, ypos;
     char userSide, ComputerSide,goFirstSide = Xs;
+    int CalcDepth = 0;
+    std::cout << "Pick depth of calculation:";
+    std::cin >> CalcDepth;
     std::cout << "Pick your side (x / o):";
     std::cin >> userSide;
     if (userSide == Xs) {
@@ -22,7 +25,7 @@ int main()
     }
     while (true) {
         if (ComputerSide == goFirstSide) {
-            i = minimax(2, true, GamePos, ComputerSide, userSide); //checks the best next move
+            i = minimax(CalcDepth, CalcDepth, true, GamePos, ComputerSide, userSide); //checks the best next move
             GamePos[i[1]][i[0]] = ComputerSide;
             printBoard(GamePos);
             if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
@@ -41,7 +44,7 @@ int main()
             printBoard(GamePos);
             if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
                 break;
-            i = minimax(2, true, GamePos, ComputerSide, userSide); //checks the best next move
+            i = minimax(CalcDepth, CalcDepth, true, GamePos, ComputerSide, userSide); //checks the best next move
             GamePos[i[1]][i[0]] = ComputerSide;
             printBoard(GamePos);
             if (anaylzeSituation(GamePos, ComputerSide)) //if the game ended:
