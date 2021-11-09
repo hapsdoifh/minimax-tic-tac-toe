@@ -2,16 +2,15 @@
 
 
 
-int* minimax(int depth, bool maximizing, char position[3][3], char myside, char opponent) {
+int* minimax(int depth, bool maximizing, char position[BOARDSIZE][BOARDSIZE], char myside, char opponent) {
     int max = 0;
     int min = 0;
     int rval[3] = { 0,0,0 };
-    char posCpy[3][3];
-    if (depth == 2) {
-        min = 1;
-        min = 0;
+    if (depth == 0) {
+        depth = 0;
     }
-    if (depth == 0 || analyzeBoard(position, myside) || analyzeBoard(position,opponent)) { //if the it has reached required depth or a side won
+    char posCpy[BOARDSIZE][BOARDSIZE];
+    if (depth == 0 || analyzeBoard(position, myside) || analyzeBoard(position,opponent)||isBoardFull(position)) { //if the it has reached required depth or a side won
         rval[2] = (depth+1) * analyzeBoard(position, myside);
         return rval;
     }
@@ -20,8 +19,8 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
     int first = 0;
     int temp = 0;
     if (maximizing == true) {
-        for (y = 0; y < 3; y++) {
-            for (x = 0; x < 3; x++) {
+        for (y = 0; y < BOARDSIZE; y++) {
+            for (x = 0; x < BOARDSIZE; x++) {
                 if (position[y][x] == 0) {
                     position[y][x] = myside;
                     memcpy(posCpy, position, sizeof(posCpy));
@@ -45,8 +44,8 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
         return rval;
     }
     else { //minimizing
-        for (y = 0; y < 3; y++) {
-            for (x = 0; x < 3; x++) {
+        for (y = 0; y < BOARDSIZE; y++) {
+            for (x = 0; x < BOARDSIZE; x++) {
                 if (position[y][x] == 0) {
                     position[y][x] = opponent;
                     memcpy(posCpy, position, sizeof(posCpy));
@@ -71,8 +70,9 @@ int* minimax(int depth, bool maximizing, char position[3][3], char myside, char 
     }
 }
 
-int analyzeBoard(char position[3][3], char side) { // 1 is win, 0 is no win
+int analyzeBoard(char position[BOARDSIZE][BOARDSIZE], char side) { // 1 is win, 0 is no win
     int x = 0;
+    int connect = 0;
     int y = 0;
     int won = 0;
     char opponent = 0;
@@ -86,24 +86,61 @@ int analyzeBoard(char position[3][3], char side) { // 1 is win, 0 is no win
     do {
         x = 0;
         y = 0;
-        for (y = 0; y < 3; y++) {
-            if (position[y][x] == sideCopy && position[y][x + 1] == sideCopy && position[y][x + 2] == sideCopy) {
-                won = 1;
+        connect = 1;
+        for (x = 0; x < BOARDSIZE; x++) {
+            if (position[x][x] != sideCopy) {
+                connect = 0;
             }
         }
-        y = 0;
-        for (x = 0; x < 3; x++) {
-            if (position[y][x] == sideCopy && position[y + 1][x] == sideCopy && position[y + 2][x] == sideCopy) {
-                won = 1;
-            }
+        if (connect == 1) {
+            won = 1;
         }
         x = 0;
-        if (position[0][0] == sideCopy && position[1][1] == sideCopy && position[2][2] == sideCopy) {
+
+        connect = 1;
+        for (x = 0; x < BOARDSIZE; x++) {
+            if (position[x][BOARDSIZE - 1 - x] != sideCopy) {
+                
+                connect = 0;
+            }
+        }
+        if (connect == 1) {
             won = 1;
         }
-        if (position[0][2] == sideCopy && position[1][1] == sideCopy && position[2][0] == sideCopy) {
+        x = 0;
+
+        for (y = 0; y < BOARDSIZE; y++) {
+            connect = 1;
+            for (x = 0; x < BOARDSIZE; x++) {
+                if (position[y][x] != sideCopy) {
+                    connect = 0;
+                }
+            }
+            if (connect) {
+                break;
+            }
+        }
+        if (connect == 1) {
             won = 1;
         }
+        y = 0;
+        x = 0;
+
+        for (x = 0; x < BOARDSIZE; x++) {
+            connect = 1;
+            for (y = 0; y < BOARDSIZE; y++) {
+                if (position[y][x] != sideCopy) {
+                    connect = 0;
+                }
+            }
+            if (connect) {
+                break;
+            }
+        }
+        if (connect == 1) {
+            won = 1;
+        }
+
         if (won) {
             if (sideCopy == side) { //computer side won
                 return 1;
@@ -120,10 +157,10 @@ int analyzeBoard(char position[3][3], char side) { // 1 is win, 0 is no win
     return 0;
 }
 
-int isBoardFull(char position[3][3]) {
+int isBoardFull(char position[BOARDSIZE][BOARDSIZE]) {
     int full = 1;
-    for (int y = 0; y < 3; y++) {
-        for (int x = 0; x < 3; x++) {
+    for (int y = 0; y < BOARDSIZE; y++) {
+        for (int x = 0; x < BOARDSIZE; x++) {
             if (position[y][x] == 0) {
                 return 0; // board is not full
             }
@@ -132,7 +169,7 @@ int isBoardFull(char position[3][3]) {
     return 1;
 }
 
-int anaylzeSituation(char GamePos[3][3], char ComputerSide) {
+int anaylzeSituation(char GamePos[BOARDSIZE][BOARDSIZE], char ComputerSide) {
     if (analyzeBoard(GamePos, ComputerSide) != 0 || isBoardFull(GamePos)) {
         if (analyzeBoard(GamePos, ComputerSide)) { // the computer won
             std::cout << "Computer Won!";
@@ -150,11 +187,11 @@ int anaylzeSituation(char GamePos[3][3], char ComputerSide) {
     }
 }
 
-void printBoard(char GamePos[3][3]) {
+void printBoard(char GamePos[BOARDSIZE][BOARDSIZE]) {
     std::cout << "  1|2|3\n"; //output x-coordinates
-    for (int j = 0; j < 3; j++) {
+    for (int j = 0; j < BOARDSIZE; j++) {
         std::cout << j + 1 << "|"; // output y-coordinates
-        for (int k = 0; k < 3; k++) {
+        for (int k = 0; k < BOARDSIZE; k++) {
             if (GamePos[j][k] == 0) {
                 std::cout << "_";
             }
